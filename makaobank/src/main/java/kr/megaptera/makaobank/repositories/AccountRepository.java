@@ -7,4 +7,6 @@ import java.util.*;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
   Optional<Account> findByAccountNumber(String accountNumber);
+
+  Account save(Account account);
 }
