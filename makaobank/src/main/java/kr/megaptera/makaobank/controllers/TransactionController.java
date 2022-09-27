@@ -25,11 +25,9 @@ public class TransactionController {
 
   @GetMapping
   public TransactionsDto list(
+      @RequestAttribute("accountNumber") AccountNumber accountNumber,
       @RequestParam(required = false, defaultValue = "1") Integer page
   ) {
-    //TODO. 인증 후 제대로 처리하자!
-    AccountNumber accountNumber = new AccountNumber("1234");
-
     List<TransactionDto> transactionDtos =
         transactionService.list(accountNumber, page)
             .stream()
@@ -42,11 +40,10 @@ public class TransactionController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public TransferResultDto transfer(
+      @RequestAttribute("accountNumber") AccountNumber sender,
       @Valid @RequestBody TransferDto transferDto
   ) {
 
-    //TODO. 인증 후 제대로 처리하자!
-    AccountNumber sender = new AccountNumber("1234");
     AccountNumber receiver = new AccountNumber(transferDto.getTo());
 
     Long amount = transferService.transfer(

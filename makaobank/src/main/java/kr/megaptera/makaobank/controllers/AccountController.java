@@ -17,9 +17,12 @@ public class AccountController {
   }
 
   @GetMapping("me")
-  public AccountDto account() {
-    // TODO. 인증정보 활용
-    AccountNumber accountNumber = new AccountNumber("1234");
+  public AccountDto account(
+      @RequestAttribute("accountNumber") AccountNumber accountNumber
+  ) {
+
+    System.out.println("*".repeat(20));
+    System.out.println(accountNumber);
 
     Account account = accountService.detail(accountNumber);
     return account.toDto();
