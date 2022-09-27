@@ -64,4 +64,9 @@ public class Account {
   public AccountDto toDto() {
     return new AccountDto(accountNumber, name, amount);
   }
+
+  public void transfer(Account other, Long amount) {
+    this.amount -= amount;
+    other.amount += amount;
+  }
 }
