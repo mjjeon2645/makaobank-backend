@@ -3,6 +3,7 @@ package kr.megaptera.makaobank.models;
 import kr.megaptera.makaobank.dtos.*;
 import kr.megaptera.makaobank.exceptions.*;
 import org.hibernate.annotations.*;
+import org.springframework.security.crypto.password.*;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -16,6 +17,8 @@ public class Account {
 
   @Embedded
   private AccountNumber accountNumber;
+
+  private String encodedPassword;
 
   private String name;
 
@@ -44,6 +47,39 @@ public class Account {
     this.amount = amount;
   }
 
+  public void transfer(Account other, Long amount) {
+    if (amount <= 0 || amount > this.amount) {
+      throw new IncorrectAmount(amount);
+    }
+
+    this.amount -= amount;
+
+    other.amount += amount;
+  }
+
+  public void changePassword(String password,
+                             PasswordEncoder passwordEncoder) {
+    encodedPassword = passwordEncoder.encode(password);
+  }
+
+  public boolean authenticate(String password,
+                              PasswordEncoder passwordEncoder) {
+    return passwordEncoder.matches(password, encodedPassword);
+  }
+
+  public static Account fake(String accountNumber) {
+    return new Account(
+        1L, new AccountNumber(accountNumber), "tester", 100_000L);
+  }
+
+  public static Account fake(AccountNumber accountNumber) {
+    return Account.fake(accountNumber.value());
+  }
+
+  public AccountDto toDto() {
+    return new AccountDto(accountNumber.value(), name, amount);
+  }
+
   public Long id() {
     return id;
   }
@@ -58,24 +94,5 @@ public class Account {
 
   public Long amount() {
     return amount;
-  }
-
-  public static Account fake(String accountNumber) {
-    return new Account(
-        1L, new AccountNumber(accountNumber), "tester", 100_000L);
-  }
-
-  public AccountDto toDto() {
-    return new AccountDto(accountNumber.value(), name, amount);
-  }
-
-  public void transfer(Account other, Long amount) {
-    if (amount <= 0 || amount > this.amount) {
-      throw new IncorrectAmount(amount);
-    }
-
-    this.amount -= amount;
-
-    other.amount += amount;
   }
 }

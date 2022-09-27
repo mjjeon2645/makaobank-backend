@@ -2,6 +2,8 @@ package kr.megaptera.makaobank.models;
 
 import kr.megaptera.makaobank.exceptions.*;
 import org.junit.jupiter.api.*;
+import org.springframework.security.crypto.argon2.*;
+import org.springframework.security.crypto.password.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,5 +48,16 @@ class AccountTest {
     assertThrows(IncorrectAmount.class, () -> {
       account1.transfer(account2, transferAmount);
     });
+  }
+
+  @Test
+  void authenticate() {
+    Account account = Account.fake("1234");
+    PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
+
+    account.changePassword("password", passwordEncoder);
+
+    assertThat(account.authenticate("password", passwordEncoder)).isTrue();
+    assertThat(account.authenticate("xxx", passwordEncoder)).isFalse();
   }
 }

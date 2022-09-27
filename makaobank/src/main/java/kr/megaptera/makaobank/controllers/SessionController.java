@@ -5,7 +5,11 @@ import kr.megaptera.makaobank.exceptions.*;
 import kr.megaptera.makaobank.models.*;
 import kr.megaptera.makaobank.services.*;
 import org.springframework.http.*;
+import org.springframework.validation.*;
+import org.springframework.web.bind.*;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.*;
 
 @RestController
 @RequestMapping("session")
@@ -19,17 +23,30 @@ public class SessionController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public LoginResultDto login(
-      @RequestBody LoginRequestDto loginRequestDto
+      @Valid @RequestBody LoginRequestDto loginRequestDto
   ) {
-    Account account = loginService.login(
-        loginRequestDto.getAccountNumber(),
-        loginRequestDto.getPassword());
+    AccountNumber accountNumber =
+        new AccountNumber(loginRequestDto.getAccountNumber());
+
+    String password = loginRequestDto.getPassword();
+
+    Account account = loginService.login(accountNumber, password);
 
     return new LoginResultDto(
         account.accountNumber().value(),
         account.name(),
         account.amount()
     );
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public String inValidRequest(MethodArgumentNotValidException exception) {
+    BindingResult result = exception.getBindingResult();
+    for (ObjectError error : result.getAllErrors()) {
+      return error.getDefaultMessage();
+    }
+    return "Bad Request!";
   }
 
   @ExceptionHandler(LoginFailed.class)

@@ -27,7 +27,7 @@ class TransactionServiceTest {
     Transaction transaction = mock(Transaction.class);
 
     given(transactionRepository
-        .findAllBySenderOrReceiver(accountNumber, accountNumber, any()))
+        .findAllBySenderOrReceiver(eq(accountNumber), eq(accountNumber), any()))
         .willReturn(List.of(transaction));
 
     List<Transaction> transactions =
