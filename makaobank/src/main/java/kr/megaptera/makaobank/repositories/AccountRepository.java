@@ -8,7 +8,7 @@ import java.util.*;
 // 이걸로 래핑해도 문제 없는지 살펴보기
 //@SuppressWarnings("unchecked")
 public interface AccountRepository extends JpaRepository<Account, Long> {
-  Optional<Account> findByAccountNumber(String accountNumber);
+  Optional<Account> findByAccountNumber(AccountNumber accountNumber);
 
   Account save(Account account);
 }

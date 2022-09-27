@@ -1,7 +1,9 @@
 package kr.megaptera.makaobank.exceptions;
 
+import kr.megaptera.makaobank.models.*;
+
 public class AccountNotFound extends RuntimeException{
-  public AccountNotFound(String accountNumber) {
-    super("Account Not Found (account number: " + accountNumber + ")");
+  public AccountNotFound(AccountNumber accountNumber) {
+    super("Account Not Found: " + accountNumber);
   }
 }

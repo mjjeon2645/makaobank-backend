@@ -6,11 +6,10 @@ import org.junit.jupiter.api.*;
 
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
 
 class AccountServiceTest {
   private AccountService accountService;
@@ -28,10 +27,12 @@ class AccountServiceTest {
 
   @Test
   void account() {
-    Account account = accountService.detail("1234");
+    AccountNumber accountNumber = new AccountNumber("1234");
 
-    verify(accountRepository).findByAccountNumber("1234");
+    Account account = accountService.detail(accountNumber);
 
-    assertThat(account.accountNumber()).isEqualTo("1234");
+    verify(accountRepository).findByAccountNumber(accountNumber);
+
+    assertThat(account.accountNumber()).isEqualTo(accountNumber);
   }
 }

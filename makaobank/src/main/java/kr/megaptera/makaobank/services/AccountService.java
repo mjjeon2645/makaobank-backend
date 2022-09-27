@@ -15,7 +15,7 @@ public class AccountService {
     this.accountRepository = accountRepository;
   }
 
-  public Account detail(String accountNumber) {
+  public Account detail(AccountNumber accountNumber) {
     return accountRepository.findByAccountNumber(accountNumber)
         .orElseThrow(() -> new AccountNotFound(accountNumber));
   }

@@ -11,9 +11,9 @@ import org.springframework.test.context.*;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.*;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AccountController.class)
@@ -39,7 +39,8 @@ class AccountControllerTest {
 
   @Test
   void accountNotFound() throws Exception {
-    given(accountService.detail(any())).willThrow(new AccountNotFound("1234"));
+    given(accountService.detail(any()))
+        .willThrow(new AccountNotFound(new AccountNumber("1234")));
 
     mockMvc.perform(MockMvcRequestBuilders.get("/accounts/me"))
         .andExpect(status().isNotFound());

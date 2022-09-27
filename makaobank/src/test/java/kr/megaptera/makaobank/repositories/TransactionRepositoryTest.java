@@ -10,14 +10,21 @@ import org.springframework.transaction.annotation.*;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-class AccountRepositoryTest {
+class TransactionRepositoryTest {
+
   @Autowired
-  private AccountRepository accountRepository;
+  private TransactionRepository transactionRepository;
 
   @Test
   void save() {
-    Account account = new Account(new AccountNumber("12345"), "time tester");
+    AccountNumber sender = new AccountNumber("1234");
+    AccountNumber receiver = new AccountNumber("5678");
+    Long amount = 100_000L;
+    String name = "tester";
 
-    accountRepository.save(account);
+    Transaction transaction = new Transaction(
+        sender, receiver, amount, name);
+
+    transactionRepository.save(transaction);
   }
 }

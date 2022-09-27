@@ -4,8 +4,8 @@ import kr.megaptera.makaobank.dtos.*;
 import kr.megaptera.makaobank.exceptions.*;
 import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.*;
 
 @Entity
@@ -14,7 +14,8 @@ public class Account {
   @GeneratedValue
   private Long id;
 
-  private String accountNumber;
+  @Embedded
+  private AccountNumber accountNumber;
 
   private String name;
 
@@ -29,13 +30,14 @@ public class Account {
   public Account() {
   }
 
-  public Account(String accountNumber, String name) {
+  public Account(AccountNumber accountNumber, String name) {
     this.accountNumber = accountNumber;
     this.name = name;
     this.amount = 0L;
   }
 
-  public Account(Long id, String accountNumber, String name, Long amount) {
+  public Account(Long id, AccountNumber accountNumber,
+                 String name, Long amount) {
     this.id = id;
     this.accountNumber = accountNumber;
     this.name = name;
@@ -46,7 +48,7 @@ public class Account {
     return id;
   }
 
-  public String accountNumber() {
+  public AccountNumber accountNumber() {
     return accountNumber;
   }
 
@@ -59,11 +61,12 @@ public class Account {
   }
 
   public static Account fake(String accountNumber) {
-    return new Account(1L, accountNumber, "tester", 100_000L);
+    return new Account(
+        1L, new AccountNumber(accountNumber), "tester", 100_000L);
   }
 
   public AccountDto toDto() {
-    return new AccountDto(accountNumber, name, amount);
+    return new AccountDto(accountNumber.value(), name, amount);
   }
 
   public void transfer(Account other, Long amount) {

@@ -15,8 +15,10 @@ class AccountTest {
 
   @BeforeEach
   void setUp() {
-    account1 = new Account(1L, "1234", "tester", AMOUNT1);
-    account2 = new Account(2L, "5678", "ashal", AMOUNT2);
+    AccountNumber accountNumber1 = new AccountNumber("1234");
+    AccountNumber accountNumber2 = new AccountNumber("5678");
+    account1 = new Account(1L, accountNumber1, "tester", AMOUNT1);
+    account2 = new Account(2L, accountNumber2, "ashal", AMOUNT2);
   }
 
   @Test
