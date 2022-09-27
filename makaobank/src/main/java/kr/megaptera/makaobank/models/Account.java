@@ -72,6 +72,7 @@ public class Account {
     }
 
     this.amount -= amount;
+
     other.amount += amount;
   }
 }

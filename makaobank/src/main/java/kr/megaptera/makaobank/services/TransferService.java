@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.*;
 @Service
 @Transactional
 public class TransferService {
-
   private AccountRepository accountRepository;
 
   public TransferService(AccountRepository accountRepository) {

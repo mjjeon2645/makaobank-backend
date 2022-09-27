@@ -41,10 +41,9 @@ class TransactionControllerTest {
 
     verify(transferService).transfer("1234", "5678", 1_000L);
   }
-
   @Test
   void transferWithIncorrectAmount() throws Exception {
-    Long amount = 1_000_000L;
+    Long amount = 2_000_000L;
 
     given(transferService.transfer(any(), any(), any()))
         .willThrow(new IncorrectAmount(amount));
@@ -57,14 +56,14 @@ class TransactionControllerTest {
                 "\"amount\":" + amount +
                 "}"))
         .andExpect(status().isBadRequest())
-        .andExpect(content().string(
-            containsString("\"code\":\"1002\"")
+        .andExpect(status().isBadRequest()).andExpect(content().string(
+            containsString("\"code\":1002")
         ));
   }
 
   @Test
-  void transferWithIncorrectAccount() throws Exception {
-    String accountNumber = "5678";
+  void transferWithIncorrectAccountNumber() throws Exception {
+    String accountNumber = "2222";
 
     given(transferService.transfer(any(), any(), any()))
         .willThrow(new AccountNotFound(accountNumber));
@@ -73,11 +72,11 @@ class TransactionControllerTest {
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{" +
-                "\"to\":" + accountNumber + "\"," +
-                "\"amount\":\"1000\"" +
+                "\"to\":\"" + accountNumber + "\"," +
+                "\"amount\":10000" +
                 "}"))
         .andExpect(status().isBadRequest()).andExpect(content().string(
-            containsString("\"code\":\"1001\"")
+            containsString("\"code\":1001")
         ));
   }
 }

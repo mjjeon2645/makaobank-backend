@@ -2,7 +2,6 @@ package kr.megaptera.makaobank.dtos;
 
 public abstract class ErrorDto {
   private final int code;
-
   private final String message;
 
   public ErrorDto(int code, String message) {

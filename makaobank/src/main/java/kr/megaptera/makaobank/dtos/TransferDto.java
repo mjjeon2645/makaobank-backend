@@ -1,7 +1,5 @@
 package kr.megaptera.makaobank.dtos;
 
-import org.springframework.validation.annotation.*;
-
 import javax.validation.constraints.*;
 
 public class TransferDto {

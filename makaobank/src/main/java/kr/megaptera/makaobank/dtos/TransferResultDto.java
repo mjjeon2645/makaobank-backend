@@ -1,16 +1,16 @@
 package kr.megaptera.makaobank.dtos;
 
 public class TransferResultDto {
-  private Long amount;
+  private Long transferred;
 
   public TransferResultDto() {
   }
 
-  public TransferResultDto(Long amount) {
-    this.amount = amount;
+  public TransferResultDto(Long transferred) {
+    this.transferred = transferred;
   }
 
-  public Long getAmount() {
-    return amount;
+  public Long getTransferred() {
+    return transferred;
   }
 }

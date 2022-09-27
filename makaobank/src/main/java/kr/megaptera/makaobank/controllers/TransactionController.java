@@ -17,7 +17,7 @@ public class TransactionController {
     this.transferService = transferService;
   }
 
-  @PostMapping
+  @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
   public TransferResultDto transfer(
       @Valid @RequestBody TransferDto transferDto

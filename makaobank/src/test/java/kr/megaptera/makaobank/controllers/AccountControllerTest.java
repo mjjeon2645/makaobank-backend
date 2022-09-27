@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(AccountController.class)
 @ActiveProfiles("test")
 class AccountControllerTest {
+
   @Autowired
   private MockMvc mockMvc;
 
