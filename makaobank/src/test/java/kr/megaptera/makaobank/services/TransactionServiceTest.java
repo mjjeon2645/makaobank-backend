@@ -26,13 +26,12 @@ class TransactionServiceTest {
 
     Transaction transaction = mock(Transaction.class);
 
-    given(
-        transactionRepository
-            .findAllBySenderOrReceiverOrderByCreatedAtDesc(
-                accountNumber, accountNumber))
+    given(transactionRepository
+        .findAllBySenderOrReceiver(accountNumber, accountNumber, any()))
         .willReturn(List.of(transaction));
 
-    List<Transaction> transactions = transactionService.list(accountNumber);
+    List<Transaction> transactions =
+        transactionService.list(accountNumber, 1);
 
     assertThat(transactions).hasSize(1);
   }

@@ -24,12 +24,14 @@ public class TransactionController {
   }
 
   @GetMapping
-  public TransactionsDto list() {
+  public TransactionsDto list(
+      @RequestParam(required = false, defaultValue = "1") Integer page
+  ) {
     //TODO. 인증 후 제대로 처리하자!
     AccountNumber accountNumber = new AccountNumber("1234");
 
     List<TransactionDto> transactionDtos =
-        transactionService.list(accountNumber)
+        transactionService.list(accountNumber, page)
             .stream()
             .map(transaction -> transaction.toDto(accountNumber))
             .collect(Collectors.toList());
