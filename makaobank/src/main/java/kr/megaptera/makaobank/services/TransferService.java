@@ -17,8 +17,6 @@ public class TransferService {
   }
 
   public Long transfer(String from, String to, Long amount) {
-    //TODO. amount가 0 이하이면 안되고, 내 잔액보다 커서도 안된다.
-
     Account account1 = accountRepository.findByAccountNumber(from)
         .orElseThrow(() -> new AccountNotFound(from));
     Account account2 = accountRepository.findByAccountNumber(to)

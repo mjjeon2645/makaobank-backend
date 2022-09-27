@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.*;
 @Service
 @Transactional
 public class AccountService {
-
   private final AccountRepository accountRepository;
 
   public AccountService(AccountRepository accountRepository) {
@@ -17,7 +16,7 @@ public class AccountService {
   }
 
   public Account detail(String accountNumber) {
-    return accountRepository.findByAccountNumber((accountNumber))
+    return accountRepository.findByAccountNumber(accountNumber)
         .orElseThrow(() -> new AccountNotFound(accountNumber));
   }
 }

@@ -1,6 +1,7 @@
 package kr.megaptera.makaobank.models;
 
 import kr.megaptera.makaobank.dtos.*;
+import kr.megaptera.makaobank.exceptions.*;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -66,6 +67,10 @@ public class Account {
   }
 
   public void transfer(Account other, Long amount) {
+    if (amount <= 0 || amount > this.amount) {
+      throw new IncorrectAmount(amount);
+    }
+
     this.amount -= amount;
     other.amount += amount;
   }

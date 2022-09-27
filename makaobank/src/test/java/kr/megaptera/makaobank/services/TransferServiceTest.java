@@ -1,5 +1,6 @@
 package kr.megaptera.makaobank.services;
 
+import kr.megaptera.makaobank.exceptions.*;
 import kr.megaptera.makaobank.models.*;
 import kr.megaptera.makaobank.repositories.*;
 import org.junit.jupiter.api.*;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.*;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -40,5 +42,29 @@ class TransferServiceTest {
 
     assertThat(account2.amount()).isEqualTo(amount2 + transferAmount);
     assertThat(account1.amount()).isEqualTo(amount1 - transferAmount);
+  }
+
+  @Test
+  void transferWithIncorrectToAccountNumber() {
+    Account account = new Account(1L, "1234", "tester", 100_000L);
+
+    given(accountRepository.findByAccountNumber(account.accountNumber()))
+        .willReturn(Optional.of(account));
+
+    assertThrows(AccountNotFound.class, () -> {
+      transferService.transfer("1234", "5678", 100L);
+    });
+  }
+
+  @Test
+  void transferWithIncorrectFromAccountNumber() {
+    Account account2 = new Account(2L, "5678", "ashal", 100L);
+
+    given(accountRepository.findByAccountNumber(account2.accountNumber()))
+        .willReturn(Optional.of(account2));
+
+    assertThrows(AccountNotFound.class, () -> {
+      transferService.transfer("1234", "5678", 100L);
+    });
   }
 }

@@ -1,6 +1,7 @@
 package kr.megaptera.makaobank.controllers;
 
 import kr.megaptera.makaobank.dtos.*;
+import kr.megaptera.makaobank.exceptions.*;
 import kr.megaptera.makaobank.services.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -33,4 +34,19 @@ public class TransactionController {
 
     return new TransferResultDto(amount);
   }
+
+  @ExceptionHandler(AccountNotFound.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  // 에러 DTO를 사용 =>
+  public ErrorDto accountNotFound() {
+    return new AccountNotFoundErrorDto();
+  }
+
+  @ExceptionHandler(IncorrectAmount.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  // 에러 DTO를 사용 =>
+  public ErrorDto incorrectAmount() {
+    return new IncorrectAmountErrorDto();
+  }
+
 }
