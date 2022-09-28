@@ -5,6 +5,8 @@ import kr.megaptera.makaobank.exceptions.*;
 import kr.megaptera.makaobank.models.*;
 import kr.megaptera.makaobank.services.*;
 import org.springframework.http.*;
+import org.springframework.validation.*;
+import org.springframework.web.bind.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.*;
@@ -26,6 +28,20 @@ public class UserController {
     Account createdAccount = userService.create(userRegisterDto);
 
     return createdAccount.toUserCreatedDto();
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public String inValidRequest(MethodArgumentNotValidException exception) {
+    BindingResult result = exception.getBindingResult();
+    for (ObjectError error : result.getAllErrors()) {
+
+      System.out.println(error);
+      System.out.println(error.getDefaultMessage());
+
+      return error.getDefaultMessage();
+    }
+    return "Bad Request!";
   }
 
   @ExceptionHandler(RegisterFailedWithUnmatchedPasswords.class)

@@ -55,15 +55,19 @@ public class TransactionController {
 
   @ExceptionHandler(AccountNotFound.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  // 에러 DTO를 사용 =>
   public ErrorDto accountNotFound() {
     return new AccountNotFoundErrorDto();
   }
 
   @ExceptionHandler(IncorrectAmount.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  // 에러 DTO를 사용 =>
   public ErrorDto incorrectAmount() {
     return new IncorrectAmountErrorDto();
+  }
+
+  @ExceptionHandler(TransferOneself.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorDto transferOneselfError() {
+    return new TransferOneselfErrorDto();
   }
 }

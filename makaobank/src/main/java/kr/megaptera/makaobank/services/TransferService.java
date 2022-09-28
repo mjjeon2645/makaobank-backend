@@ -25,6 +25,10 @@ public class TransferService {
     Account account2 = accountRepository.findByAccountNumber(to)
         .orElseThrow(() -> new AccountNotFound(to));
 
+    if (account1.accountNumber().value().equals(account2.accountNumber().value())) {
+      throw new TransferOneself();
+    }
+
     account1.transfer(account2, amount);
 
     Transaction transaction = new Transaction(
