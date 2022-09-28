@@ -21,9 +21,6 @@ public class AccountController {
       @RequestAttribute("accountNumber") AccountNumber accountNumber
   ) {
 
-    System.out.println("*".repeat(20));
-    System.out.println(accountNumber);
-
     Account account = accountService.detail(accountNumber);
     return account.toDto();
   }

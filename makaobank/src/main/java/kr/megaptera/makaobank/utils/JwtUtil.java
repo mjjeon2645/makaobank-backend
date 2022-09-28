@@ -24,10 +24,6 @@ public class JwtUtil {
     DecodedJWT verify = verifier.verify(token);
     String value = verify.getClaim("accountNumber").asString();
 
-    System.out.println("******************");
-    System.out.println(value);
-
-    System.out.println(new AccountNumber(value));
     return new AccountNumber(value);
   }
 }

@@ -1,5 +1,6 @@
 package kr.megaptera.makaobank.utils;
 
+import com.auth0.jwt.exceptions.*;
 import kr.megaptera.makaobank.models.*;
 import org.junit.jupiter.api.*;
 
@@ -30,6 +31,8 @@ class JwtUtilTest {
 
   @Test
   void encodeError() {
-   jwtUtil.decode("xxx");
+    assertThrows(JWTDecodeException.class, () -> {
+      jwtUtil.decode("xxx");
+    });
   }
 }
