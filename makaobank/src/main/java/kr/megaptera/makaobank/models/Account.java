@@ -39,6 +39,13 @@ public class Account {
     this.amount = 0L;
   }
 
+  public Account(Long id, AccountNumber accountNumber, String name) {
+    this.id = id;
+    this.accountNumber = accountNumber;
+    this.name = name;
+    this.amount = 0L;
+  }
+
   public Account(Long id, AccountNumber accountNumber,
                  String name, Long amount) {
     this.id = id;
@@ -94,5 +101,9 @@ public class Account {
 
   public Long amount() {
     return amount;
+  }
+
+  public UserCreatedDto toUserCreatedDto() {
+    return new UserCreatedDto(name, accountNumber.value(), amount);
   }
 }
