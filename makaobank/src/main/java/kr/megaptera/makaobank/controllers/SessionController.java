@@ -47,6 +47,10 @@ public class SessionController {
   public String inValidRequest(MethodArgumentNotValidException exception) {
     BindingResult result = exception.getBindingResult();
     for (ObjectError error : result.getAllErrors()) {
+
+      System.out.println(error);
+      System.out.println(error.getDefaultMessage());
+
       return error.getDefaultMessage();
     }
     return "Bad Request!";
