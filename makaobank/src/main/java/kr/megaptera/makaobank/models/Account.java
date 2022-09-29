@@ -43,7 +43,7 @@ public class Account {
     this.id = id;
     this.accountNumber = accountNumber;
     this.name = name;
-    this.amount = 0L;
+    this.amount = 100_000L;
   }
 
   public Account(Long id, AccountNumber accountNumber,
@@ -55,8 +55,12 @@ public class Account {
   }
 
   public void transfer(Account other, Long amount) {
-    if (amount <= 0 || amount > this.amount) {
+    if (amount > this.amount) {
       throw new IncorrectAmount(amount);
+    }
+
+    if (amount <= 0) {
+      throw new NegativeAmount();
     }
 
     this.amount -= amount;

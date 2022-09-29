@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.*;
+import javax.validation.constraints.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -69,5 +70,11 @@ public class TransactionController {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorDto transferOneselfError() {
     return new TransferOneselfErrorDto();
+  }
+
+  @ExceptionHandler(NegativeAmount.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorDto negativeAmountError() {
+    return new NegativeAmountErrorDto();
   }
 }
