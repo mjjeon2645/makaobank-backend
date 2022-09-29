@@ -35,6 +35,13 @@ public class UserService {
       throw new RegisterFailedWithUnmatchedPasswords();
     }
 
+    // 입력한 어카운트 넘버가 이미 존재하고 있을 때
+    Account found = accountRepository.findByAccountNumber(accountNumber).orElseThrow(null);
+
+    if (found != null) {
+      throw new AccountNumberAlreadyExistedError();
+    }
+
     // 2. 어카운트 생성
     Account account = new Account(null, accountNumber, name);
 

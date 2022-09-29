@@ -49,4 +49,10 @@ public class UserController {
   public ErrorDto registerFailedWithUnmatchedPasswords() {
     return new UnmatchedPasswordsErrorDto();
   }
+
+  @ExceptionHandler(AccountNumberAlreadyExistedError.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorDto accountNumberAlreadyExisted() {
+    return new AccountNumberAlreadyExistedErrorDto();
+  }
 }
